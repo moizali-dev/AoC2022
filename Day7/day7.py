@@ -1,7 +1,7 @@
 # Part 1
 from directory import DirectoryNode, FileNode
 
-with open("day7sampleinput.txt") as f:
+with open("day7input.txt") as f:
     
     prev_dir = None
     nodes_lst = []
@@ -67,57 +67,67 @@ with open("day7sampleinput.txt") as f:
 
     curr_dir.child = nodes_lst
 
-print(curr_dir.child)
-
 # set curr directory as root directory
 while (curr_dir.name != '/'):
     curr_dir = curr_dir.prev
 
-print(len(curr_dir.child))
+
 ### FUNCTIONS TO TRAVERSE THROUGH THE DATA ###
 
 def DirList(node, directory_lst = []):
 
         #base case
         if type(node) == DirectoryNode:
-            directory_lst.append(node.name)
+            directory_lst.append(node.id)
         
         for node in node.child:
             DirList(node, directory_lst)   
 
         return directory_lst
 
-def DirSize(node, sum = [], directory_size = {}):
+def DirSize(node, directory, sum = [], trigger_flag = False):
 
         #base case
-        if type(node) == FileNode:
+        if type(node) == FileNode and trigger_flag == True:
             sum.append(node.size)
-          
+        
+        if type(node) == DirectoryNode and node.id == directory:
+            trigger_flag = True
+        
+        #recursive case
         for node in node.child:
-            print(node.name, type(node))
-            DirSize(node, sum,directory_size)   
-            print(node.name, type(node))
-            print(node.prev)
-            if type(node.prev) == DirectoryNode:
-                directory_size[node.name] = sum
-                sum = []
+            DirSize(node, directory, sum, trigger_flag)   
 
-        return directory_size
+        return sum
 
-print(DirSize(curr_dir))
+total = 0
+directory_lst = list(set(DirList(curr_dir, directory_lst= [])))
+# print(len(set(directory_lst)))
 
-# total = 0
-# directory_lst = list(set(DirList(curr_dir, directory_lst= [])))
-# print(len(directory_lst))
+for d in directory_lst:
+    dir_size_tuple = d, DirSize(curr_dir, d, sum = [], trigger_flag = False)
+    if sum(dir_size_tuple[1]) <= 100000:        
+        total += sum(dir_size_tuple[1])
 
-# for d in directory_lst:
-#     dir_size_tuple = d, DirSize(curr_dir, d, sum = [], trigger_flag = False)
-#     if d == 'dpbwg':
-#         print(dir_size_tuple)
-#     if sum(dir_size_tuple[1]) <= 100000:        
-#         total += sum(dir_size_tuple[1])
+print(f'Part1 - Solution: {total}')
 
-# print(total)
+##################
+## --- PART 2 ----
+##################
+
+total_size = sum(DirSize(curr_dir, curr_dir.id, sum = [], trigger_flag = False))
+unused_space = 70000000 - total_size
+space_reqd = 30000000 - unused_space
+
+min_size_diff = 30000000
+for d in directory_lst:
+    dir_size_tuple = d, DirSize(curr_dir, d, sum = [], trigger_flag = False)
+    if space_reqd - sum(dir_size_tuple[1]) < 0:
+        if sum(dir_size_tuple[1]) < min_size_diff:
+            min_size_diff = sum(dir_size_tuple[1])
+
+print(f'Part2 - Solution: {min_size_diff}')
+
 
 
 
