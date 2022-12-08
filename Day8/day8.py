@@ -1,34 +1,4 @@
-# Part 1
 import numpy as np
-
-rows = 0
-cols = 0
-
-file = "day8input.txt"
-
-# Getting number of rows and cols for array
-with open(file) as f:
-    for line in f:
-        line = line.rstrip()
-
-        rows += 1
-
-    cols = len(line)
-
-# initialize array
-my_array = np.empty((rows, cols), int)
-
-# adding input to array
-row = 0
-with open(file) as f:
-    for line in f:
-        line = line.rstrip()
-
-        line_list = list(line)
-        for col_idx, col in enumerate(line_list):
-            my_array[row][col_idx] = line_list[col_idx]
-
-        row += 1
 
 def isBorderElement(row, col, arr) -> bool:
 
@@ -98,31 +68,65 @@ def isTreeVisible(row, col, arr) -> tuple:
     else:
         return False, count_trees_dict
 
-count = 0
-max_total = 0
-for j in range(len(my_array[0])):
-    for i in range(len(my_array)):
-        
-        # Check that element is not a border element
-        if isBorderElement(i, j, my_array) != True:
+if __name__ == "__main__":
 
-            # Check Tree visiblity
-            # print(f"Checking for {i},{j},{my_array[i][j]}")
-            if isTreeVisible(i,j,my_array)[0] == True:
+    # PARSING THE DATASET
+    rows = 0
+    cols = 0
+
+    file = "day8input.txt"
+
+    # Getting number of rows and cols for array
+    with open(file) as f:
+        for line in f:
+            line = line.rstrip()
+
+            rows += 1
+
+        cols = len(line)
+
+    # initialize array
+    my_array = np.empty((rows, cols), int)
+
+    # adding input to array
+    row = 0
+    with open(file) as f:
+        for line in f:
+            line = line.rstrip()
+
+            line_list = list(line)
+            for col_idx, col in enumerate(line_list):
+                my_array[row][col_idx] = line_list[col_idx]
+
+            row += 1
+
+
+    # RUNNING THE CODE 
+    count = 0
+    max_total = 0
+    for j in range(len(my_array[0])):
+        for i in range(len(my_array)):
+            
+            # Check that element is not a border element
+            if isBorderElement(i, j, my_array) != True:
+
+                # Check Tree visiblity
+                # print(f"Checking for {i},{j},{my_array[i][j]}")
+                if isTreeVisible(i,j,my_array)[0] == True:
+                    count += 1
+
+                # Calculate total core for each tree
+                total = 1
+                for k,v in isTreeVisible(i,j,my_array)[1].items():
+                    total *= v
+
+                if total > max_total:
+                    max_total = total
+
+            else:
                 count += 1
 
-            # Calculate total core for each tree
-            total = 1
-            for k,v in isTreeVisible(i,j,my_array)[1].items():
-                total *= v
-
-            if total > max_total:
-                max_total = total
-
-        else:
-            count += 1
-
-print(count)
-print(max_total)
+    print(count)
+    print(max_total)
 
         
