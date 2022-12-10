@@ -4,14 +4,14 @@ import math
 from board import *
 from utils import *
 
-inputFile = "day9input.txt"
+inputFile = "day9sampleinput.txt"
 
 fns = functions()
 num_tails = 10
 
-start = "Middle"
+start = "Bottom Left"
 
-board_size = 500
+board_size = 11
 HBoard = HeadBoard(board_size,board_size,"H",starting_point=start)
 TTBoard = TailBoard(board_size, board_size,"*",starting_point=start)
 
@@ -90,7 +90,7 @@ def part2():
                 # HBoard.PrintCleanBoard()
                 # for TBoard in TBoardLst:
                 #     TBoard.PrintCleanBoard()
-                # fns.PrintCleanBoardManyTails(HBoard, TBoardLst)
+                fns.PrintCleanBoardManyTails(HBoard, TBoardLst)
 
                 # fns.PrintCleanBoard(HBoard, TBoard)
 

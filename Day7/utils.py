@@ -19,11 +19,11 @@ class ParseInput:
 
     def __init__(self) -> None:
         pass
-        
+  
     def readfile(self, file):
         
         with open(file) as f:
-    
+
             prev_dir = None
             nodes_lst = []
             node_name = None
@@ -47,7 +47,6 @@ class ParseInput:
                                 curr_dir = child
 
                         curr_dir.prev = prev_dir
-                        
 
                     elif node_name != "/" and node_name == '..':
                         curr_dir = curr_dir.prev
@@ -59,7 +58,7 @@ class ParseInput:
                     add_list = False
 
                 if add_list == True:
-                    
+
                     # Check if its is a directory or file
                     if "dir" in line_input:
                         node_name = line_input[4:]

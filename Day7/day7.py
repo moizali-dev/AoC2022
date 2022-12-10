@@ -2,7 +2,7 @@
 from utils import DirectoryNode, FileNode, ParseInput
 
 Pi = ParseInput()
-curr_dir = Pi.readfile("day7input.txt")
+curr_dir = Pi.readfile("day7sampleinput.txt")
 
 #############################################
 ### FUNCTIONS TO TRAVERSE THROUGH THE DATA ##
