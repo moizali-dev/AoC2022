@@ -25,6 +25,9 @@ class Board:
     def getCols(self):
         return self.cols
 
+    def getType(self):
+        return self.type
+
     def getRowsCols(self):
         return self.curr_row, self.curr_col
 
@@ -92,6 +95,9 @@ class TailBoard(Board):
 
     def getRowsCols(self):
         return super().getRowsCols()
+
+    def getType(self):
+        return super().getType()
 
     def setElement(self, row, col, setvalue):
         return super().setElement(row, col, setvalue)

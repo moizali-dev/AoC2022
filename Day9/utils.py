@@ -1,5 +1,7 @@
-from board import *
+from typing import List
 import math
+
+from board import *
 
 class functions:
 
@@ -62,6 +64,35 @@ class functions:
                     print("B", end = ' ')
 
             print() 
+
+    def PrintCleanBoardManyTails(self, HBoardInput:HeadBoard, TailBoardList:List[TailBoard]):
+
+        print("--PRINTING NEW BOARD--")
+
+        rows = HBoardInput.getRows()
+        cols = HBoardInput.getCols()
+
+        for r in range(rows):
+            for c in range(cols):
+
+                # H overrides
+                if HBoardInput.getElement(r,c) == "H":
+                    print("H", end = ' ')
+                
+                elif HBoardInput.getElement(r,c) != "H":
+                    tail_lst = []
+                    for TailBoard in TailBoardList:
+                        if TailBoard.getElement(r,c) != ".":
+                            tail_lst.append(int(TailBoard.getElement(r,c)))
+                    #Check minium of tail_lst
+                    if len(tail_lst) > 0:
+                        print(str(min(tail_lst)), end = ' ')
+                    else:
+                        print(".", end=' ')
+                else:
+                    print(".", end = ' ')
+            print() 
+
 
     def countTailTracks(self, TrailTrackBoard:TailBoard):
 
