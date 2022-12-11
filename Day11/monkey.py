@@ -1,10 +1,10 @@
 from typing import List, Tuple
 import time
-from fractions import Fraction
+import math
 
 class Monkey:
 
-    def __init__(self,number:int, items:List, operation:str, divisible:int, TrueMonkey:int, FalseMonkey:int, inspectionNum:int) -> None:
+    def __init__(self,number:int, items:List, operation:str, divisible:int, TrueMonkey:int, FalseMonkey:int, inspectionNum:int, divisibleLst:List,part:str) -> None:
         self.number = number
         self.items = items
         self.operation = operation
@@ -12,16 +12,25 @@ class Monkey:
         self.TrueMonekey = TrueMonkey
         self.FalseMonkey = FalseMonkey
         self.inspectionNum = inspectionNum
+        self.divisibleLst = divisibleLst
+        self.part = part
 
     def result(self) -> List[Tuple]:
         worry_level = 0
         monkey_output = []
+        lcm = self.LCMofArray(self.divisibleLst)
 
         for worry_level in self.items:
             worry_level = self.parseOperation(int(worry_level))
-            # worry_level = worry_level // 3
+            
+            if self.part == "part1":
+                worry_level = worry_level // 3 
+            elif self.part == "part2":
+                worry_level %= lcm
 
-            if worry_level % self.divisible != 0:
+            result = worry_level % self.divisible
+            
+            if result != 0:
                 monkey_output.append((worry_level, self.FalseMonkey))
             else:
                 monkey_output.append((worry_level, self.TrueMonekey))
@@ -73,5 +82,11 @@ class Monkey:
 
     def getNumInpsections(self):
         return self.inspectionNum
+
+    def LCMofArray(self, a):
+        lcm = a[0]
+        for i in range(1,len(a)):
+            lcm = lcm*a[i]//math.gcd(lcm, a[i])
+        return lcm
 
 

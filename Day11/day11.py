@@ -1,5 +1,6 @@
 # Part 1
 import re
+import math
 
 from monkey import Monkey
 Monkey_dict = {}
@@ -7,9 +8,13 @@ number = 0
 starting_lst = []
 operation = ""
 
+divisible_lst = []
+part = "part2" # "part2" for part2
+rounds = 10000 # rounds = 10000 for part2
+
 # Parsing data
 
-with open("day11sampleinput.txt") as f:
+with open("day11input.txt") as f:
     for line in f:
         line = line.rstrip()
 
@@ -26,6 +31,7 @@ with open("day11sampleinput.txt") as f:
         
         if "divisible" in line:
             divisible = int(re.findall(r'\d+', line)[0])
+            divisible_lst.append(divisible)
         
         if "true" in line:
             true_throw = int(re.findall(r'\d+', line)[0])
@@ -34,22 +40,20 @@ with open("day11sampleinput.txt") as f:
             false_throw = int(re.findall(r'\d+', line)[0])
 
         if len(line) == 0:
-            Monkey_dict[number] = Monkey(number, starting_lst, operation, divisible, true_throw, false_throw,0)
+            Monkey_dict[number] = Monkey(number, starting_lst, operation, divisible, true_throw, false_throw,0, divisible_lst,part)
 
-Monkey_dict[number] = Monkey(number, starting_lst, operation, divisible, true_throw, false_throw,0)
-
-# Iterating through the items
-rounds = 1000
+Monkey_dict[number] = Monkey(number, starting_lst, operation, divisible, true_throw, false_throw,0, divisible_lst,part)
 
 def addResult(result):
     for i in result:
         Monkey_dict[i[1]].addItems(i[0])
 
+# Iterating through the items
 for i in range(rounds):
     for k,v in Monkey_dict.items():
         addResult(v.result())
 
-    print(f"\n-----After Round {i+1}-----")
+    # print(f"\n-----After Round {i+1}-----")
     # for k,v in Monkey_dict.items():
     #     print("Monkey:",k, "Items:", v.getItems(), "InspectionNum:", v.getNumInpsections())
 
