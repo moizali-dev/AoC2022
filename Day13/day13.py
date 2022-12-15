@@ -3,7 +3,7 @@ lst = []
 pair_count = 1
 import ast
 import itertools
-import copy
+from utils import sort
 
 with open("/Users/moizali/Documents/Personal/AoC2022/Day13/day13input.txt") as f:
     for lines in f:
@@ -70,6 +70,7 @@ def InRightOrderLists(firstList, secondList, result = 0):
     return result
 
 count = 0
+masterLst = []
 for k,v in pairs_dict.items():
     print("\n", "--NEW COMPARE--", v[0], v[1])
     result = InRightOrderLists(v[0],v[1])
@@ -77,5 +78,22 @@ for k,v in pairs_dict.items():
     if result == 1:
         count += k
     print(count)
+    masterLst.append(v[0])
+    masterLst.append(v[1])
 
 print(count)
+masterLst.append([[2]])
+masterLst.append([[6]])
+print(masterLst)
+
+sortfn = sort()
+sorted_masterLst = sortfn.merge_sort(masterLst)
+
+total = 1
+for idx, i in enumerate(sorted_masterLst):
+    if i == [[2]]:
+        total *= idx+1
+    if i == [[6]]:
+        total *= idx+1
+
+print(total)
